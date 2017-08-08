@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Voting</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+		<!--<link href="/public/css/main.css" rel="stylesheet" type="text/css"> -->
+		
+		<style>
+			
+			body{
+				background-color: grey;
+			}
+			
+			.hide{
+				display: none;
+			}
+			
+		</style>
+		
+		<script>
+		    
+		    $(document).ready(function(){
+		    	
+		    	
+		    	$(".custom-select").on("change", function(){
+		        	$("#disabledInput").addClass("hide");
+		        	if($(this).find('option:selected').attr('id') == "new"){
+		        		$("#disabledInput").removeClass("hide");
+		        	}
+		        	else{
+		        		
+		        	}
+		        });
+		       
+		        
+		        $("#submit").on("click", function(){
+		        	if($(".custom-select").find('option:selected').attr('id') == "new"){
+		        		$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/"+id+'/addvote/'+$("#disabledInput").val(), function(data){
+		        			alert(data);
+		        			location.reload(true);
+		        		});
+		        	}
+		        	else{
+		        		$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/"+id+'/addvote/'+$(".custom-select").val(), function(data){
+		        			alert(data);
+		        			location.reload(true);
+		        		});
+		        	}
+		        });
+		    	
+		    	
+		    	$(document.body).on('click', '#delete', function(){
+		        	$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/delete/"+id, function(data){
+		        		window.location.href = "https://fcc-voting-app-k4tz.c9users.io/";
+		        		
+		        		
+		        		
+		        	});
+		        });
+		        
+		        
+		        var chart = $("#myChart");
+		        
+		        var id = window.location.href.split("").reverse().join("").substring(0,24).split("").reverse().join("");
+		        
+		        $("#twitterlink").attr("href","https://twitter.com/intent/tweet?text="+ window.location.href);
+		        
+		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/poll/"+id, function(data){
+		        	
+		        	$.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/:ID", function(dd){
+		           
+		        		$("#name").html("Welcome, " + dd.displayName);
+		            	if(dd.id == data.owner){
+		            		$(".col-4").append('<button type="button" id="delete" class="btn btn-outline-danger btn-lg btn-block mt-3">Delete Poll</button>');
+		            	}
+		        	});  
+		        	
+		        	
+		        	
+		           $(".display-6").html(data["title"]);
+		           for(var i=0;i<data["options"].length;i++){
+		               $(".custom-select").html($(".custom-select").html() + '<option value="' + data["options"][i] + '">' + data["options"][i] + '</option>');
+		           }
+		           $(".custom-select").html($(".custom-select").html() + '<option id="new"> Add a New Option </option>'); 
+		           
+		           
+		           var params = {
+		           		type: "doughnut",
+		           		data:	{
+		           			datasets: [{
+		           				data: [
+
+					            ],
+					            backgroundColor: [
+									
+					            ],
+                				label: 'Dataset 1'
+		           			}],
+		           			labels: [
+		           					
+		           			]
+		           		}
+		           };
+		           
+		           for(i=0;i<data["options"].length;i++){
+		           		var one = Math.random() * 255;
+		           		var two = Math.random() * 255;
+		           		var three = Math.random() * 255;
+		           		params["data"]["labels"].push(data["options"][i]);
+		           		//label: data["options"][i],
+		           		params["data"]["datasets"][0]['data'].push(data["votes"][i]);
+		           		//color: "rgb(" + one + "," + two + "," + three + ")"
+		           		params["data"]["datasets"][0]['backgroundColor'].push('#'+Math.floor(Math.random()*16777215).toString(16));
+		           } 
+		           
+		           // ADD CHART.JS HERE
+		           
+		           var myChart = new Chart(chart, params);
+		           
+		           
+		        });
+		        
+		        
+		        
+		    });
+		    
+		    
+		</script>
+		
+		
+	</head>
+	<div class="container">
+	<header>
+		<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-3">
+  			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+  			</button>
+  			<a class="navbar-brand" href="">Voting App</a>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    			<ul class="navbar-nav mr-auto">
+      				<li class="nav-item">
+        				<a class="nav-link" href="/">Home</a>
+      				</li>
+      				<li class="nav-item disabled">
+			        	<a class="nav-link disabled" href="">My Polls</a>
+			      	</li>
+				      <li class="nav-item disabled">
+				        <a class="nav-link disabled" href="">New Poll</a>
+				      </li>
+				    </ul>
+				    <span class="navbar-text mr-2" id="name">  </span>
+				    <a href="/logout" class="my-2 my-lg-0">
+				      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
+				    </a>
+			</div>
+		</nav>
+	</header>
+
+	<body>
+		<div class="jumbotron">
+			<h1 class="display-6" style="text-align:center">  </h1>
+			<hr class="my4" />
+			
+			<div class="row">
+			    <div class="col-4">
+			        <select class="custom-select">
+			            <option selected>Choose an Option</option>
+			            
+			            
+			            
+			            
+			        </select>
+			        <input class="form-control mt-3 hide" id="disabledInput" type="text" placeholder="">
+			        <button type="button" id="submit" class="btn btn-outline-primary btn-lg btn-block mt-3">Submit</button>
+			        <a id="twitterlink" href=""><button type="button" class="btn btn-primary btn-lg btn-block mt-3">Share this on Twitter</button> </a>
+			    </div>
+			    <div class="col-2"></div>
+			    <div class="col-6">
+			        
+			        <canvas id="myChart" width="400" height="400"></canvas>
+			        
+			    </div>
+			    
+			    
+			</div>
+			
+			
+		</div>
+	</body>
+	</div>
+</html>

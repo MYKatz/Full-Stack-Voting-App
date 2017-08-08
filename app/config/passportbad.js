@@ -16,7 +16,6 @@ module.exports = function (passport) {
 		});
 	});
 	
-	
 	passport.use(new TwitterStrategy ({
 		consumerKey : configAuth.twitterAuth.consumerKey,
 		consumerSecret : configAuth.twitterAuth.consumerSecret,
@@ -27,18 +26,18 @@ module.exports = function (passport) {
 		
 		process.nextTick(function (){
 			
-			User.findOne({"twitter.id": profile.id}, function(err, user){
+			User.findOne({"details.id": profile.id, "details.type": "twitter"}, function(err, user){
 			
 				if(err){return done(err);}
 				if(user){return done(null, user)}
 				else{
-					console.log("NEW USER");
 					var newUser = new User();
 					
-					newUser.twitter.id          = profile.id;
-                    newUser.twitter.token       = token;
-                    newUser.twitter.username    = profile.username;
-                    newUser.twitter.displayName = profile.displayName;
+					newUser.details.type = "twitter";
+					newUser.details.id = profile.id;
+					newUser.details.username = profile.username;
+					newUser.details.displayName = profile.displayName;
+					newUser.nbrClicks.clicks = 0;
 					
 					
 					newUser.save(function (err){
@@ -56,7 +55,6 @@ module.exports = function (passport) {
 		
 		
 	}));
-	
 
 	passport.use(new GitHubStrategy({
 		clientID: configAuth.githubAuth.clientID,
@@ -65,7 +63,7 @@ module.exports = function (passport) {
 	},
 	function (token, refreshToken, profile, done) {
 		process.nextTick(function () {
-			User.findOne({ 'github.id': profile.id }, function (err, user) {
+			User.findOne({ 'details.id': profile.id}, function (err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -74,12 +72,10 @@ module.exports = function (passport) {
 					return done(null, user);
 				} else {
 					var newUser = new User();
-
-					//newUser.github.id = profile.id;
-					newUser.github.id = null;
-					newUser.github.username = profile.username;
-					newUser.github.displayName = profile.displayName;
-					newUser.github.publicRepos = profile._json.public_repos;
+					newUser.details.id = profile.id;
+					newUser.details.username = profile.username;
+					newUser.details.displayName = profile.displayName;
+					newUser.details.publicRepos = profile._json.public_repos;
 					newUser.nbrClicks.clicks = 0;
 
 					newUser.save(function (err) {

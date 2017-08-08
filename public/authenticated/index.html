@@ -19,9 +19,14 @@
 		</style>
 		
 		<script>
-
-		    $(document).ready(function(){
 		    
+		    $(document).ready(function(){
+		        
+		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/:ID", function(data){
+		           
+		           $("#name").html("Welcome, " + data.displayName);
+		            
+		        });
 		        
 		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/polls/", function(data){
 		        	for(var i=0;i<data.length;i++){
@@ -31,6 +36,7 @@
 		        });
 		        
 		    });
+		    
 		    
 		</script>
 		
@@ -47,18 +53,18 @@
   			<div class="collapse navbar-collapse" id="navbarSupportedContent">
     			<ul class="navbar-nav mr-auto">
       				<li class="nav-item active">
-        				<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        				<a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       				</li>
       				<li class="nav-item">
-			        	<a class="nav-link disabled" href="#">My Polls</a>
+			        	<a class="nav-link" href="/mine">My Polls</a>
 			      	</li>
 				      <li class="nav-item">
-				        <a class="nav-link disabled" href="#">New Poll</a>
+				        <a class="nav-link" href="/new">New Poll</a>
 				      </li>
 				    </ul>
 				    <span class="navbar-text mr-2" id="name">  </span>
-				    <a href="/auth/twitter" class="my-2 my-lg-0">
-				      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Sign in with twitter</button>
+				    <a href="/logout" class="my-2 my-lg-0">
+				      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
 				    </a>
 			</div>
 		</nav>
@@ -69,7 +75,6 @@
 			<h1 class="display-3" style="text-align:center"> Voting App </h1>
 			<hr class="my4" />
 			<div class="list-group">
-				
 			</div>
 			
 		</div>

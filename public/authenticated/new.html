@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Voting</title>
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<!--<link href="/public/css/main.css" rel="stylesheet" type="text/css"> -->
+		
+		<style>
+			
+			body{
+				background-color: grey;
+			}
+			
+			
+		</style>
+		
+		<script>
+		    
+		    $(document).ready(function(){
+		        
+		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/:ID", function(data){
+		           
+		           $("#name").html("Welcome, " + data.displayName);
+		            
+		        });
+		        
+		        
+		    });
+		    
+		    
+		</script>
+		
+		
+	</head>
+	<div class="container">
+	<header>
+		<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse mb-3">
+  			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+  			</button>
+  			<a class="navbar-brand" href="#">Voting App</a>
+
+  			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    			<ul class="navbar-nav mr-auto">
+      				<li class="nav-item">
+        				<a class="nav-link" href="/">Home</a>
+      				</li>
+      				<li class="nav-item">
+			        	<a class="nav-link" href="/mine">My Polls</a>
+			      	</li>
+				      <li class="nav-item active">
+				        <a class="nav-link" href="#">New Poll</a>
+				      </li>
+				    </ul>
+				    <span class="navbar-text mr-2" id="name">  </span>
+				    <a href="/logout" class="my-2 my-lg-0">
+				      <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
+				    </a>
+			</div>
+		</nav>
+	</header>
+
+	<body>
+		<div class="jumbotron">
+			<h1 class="display-4" style="text-align:center"> Create a New Poll </h1>
+			<hr class="my4" />
+			
+			<form action="/new/create" method="post">
+			    
+			    <div class="form-group">
+			        <label for="titleInput"> Poll Title </label>
+			         <input name="title" type="text" class="form-control" id="titleInput">  
+			    </div>
+			    
+			    <div class="form-group">
+			        <label for="optionsInput"> Options </label>
+			        <textarea name="options" class="form-control" id="optionsInput" aria-describedby="optionsHelp" rows="3"></textarea>
+			        <small id="optionsHelp" class="form-text text-muted"> Write your poll options, separated by commas (,). </small>
+			        
+			    </div>
+			    <button type="submit" class="btn btn-outline-success"> Submit </button>
+			    
+			    
+			</form>
+			
+		</div>
+	</body>
+	</div>
+</html>
