@@ -32,7 +32,7 @@
 		        
 		        $("#twitterlink").attr("href","https://twitter.com/intent/tweet?text="+ window.location.href);
 		        
-		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/poll/"+id, function(data){
+		        $.getJSON("/api/poll/"+id, function(data){
 		           $(".display-6").html(data["title"]);
 		           for(var i=0;i<data["options"].length;i++){
 		               $(".custom-select").html($(".custom-select").html() + '<option value="' + data["options"][i] + '">' + data["options"][i] + '</option>');
@@ -91,7 +91,7 @@
 		        		
 		        	}
 		        	else{
-		        		$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/"+id+'/addvote/'+$(".custom-select").val(), function(data){
+		        		$.get("/api/polls/"+id+'/addvote/'+$(".custom-select").val(), function(data){
 		        			alert(data);
 		        			location.reload(true);
 		        		});
