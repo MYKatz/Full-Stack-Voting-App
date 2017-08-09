@@ -40,13 +40,13 @@
 		        
 		        $("#submit").on("click", function(){
 		        	if($(".custom-select").find('option:selected').attr('id') == "new"){
-		        		$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/"+id+'/addvote/'+$("#disabledInput").val(), function(data){
+		        		$.get("/api/polls/"+id+'/addvote/'+$("#disabledInput").val(), function(data){
 		        			alert(data);
 		        			location.reload(true);
 		        		});
 		        	}
 		        	else{
-		        		$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/"+id+'/addvote/'+$(".custom-select").val(), function(data){
+		        		$.get("/api/polls/"+id+'/addvote/'+$(".custom-select").val(), function(data){
 		        			alert(data);
 		        			location.reload(true);
 		        		});
@@ -55,7 +55,7 @@
 		    	
 		    	
 		    	$(document.body).on('click', '#delete', function(){
-		        	$.get("https://fcc-voting-app-k4tz.c9users.io/api/polls/delete/"+id, function(data){
+		        	$.get("/api/polls/delete/"+id, function(data){
 		        		window.location.href = "https://fcc-voting-app-k4tz.c9users.io/";
 		        		
 		        		
@@ -70,9 +70,9 @@
 		        
 		        $("#twitterlink").attr("href","https://twitter.com/intent/tweet?text="+ window.location.href);
 		        
-		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/poll/"+id, function(data){
+		        $.getJSON("/api/poll/"+id, function(data){
 		        	
-		        	$.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/:ID", function(dd){
+		        	$.getJSON("/api/:ID", function(dd){
 		           
 		        		$("#name").html("Welcome, " + dd.displayName);
 		            	if(dd.id == data.owner){
