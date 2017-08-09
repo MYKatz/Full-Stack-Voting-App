@@ -22,13 +22,13 @@
 		    
 		    $(document).ready(function(){
 		        
-		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/:ID", function(data){
+		        $.getJSON("/api/:ID", function(data){
 		           
 		           $("#name").html("Welcome, " + data.displayName);
 		            
 		        });
 		        
-		        $.getJSON("https://fcc-voting-app-k4tz.c9users.io/api/polls/owner", function(data){
+		        $.getJSON("/api/polls/owner", function(data){
 		        	for(var i=0;i<data.length;i++){
 		        		$(".list-group").html($(".list-group").html() + '<a href="/poll/'+data[i]["_id"]+'" class="list-group-item list-group-item-action">'+data[i]["title"]+'</a>');
 		        	}
